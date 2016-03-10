@@ -71,7 +71,7 @@ south_east( 0 ) {
 }
 
 template <typename T>
-Quadtree_node<T>::~Quadtree_node() {
+Quadtree_node<T>::~Quadtree_node() {            //recursively call clear to do the delete.
     north_east -> clear();
     north_west -> clear();
     south_east -> clear();
@@ -109,9 +109,9 @@ Quadtree_node<T> *Quadtree_node<T>::se() const {
 }
 
 template <typename T>
-T Quadtree_node<T>::min_x() const {
-	// you may use std::min
-    if (north_west == 0 || south_west == 0) {
+T Quadtree_node<T>::min_x() const {                             //recursively call itself to go to the leave
+	// you may use std::min                                     //O(n)
+    if (north_west == 0 || south_west == 0) {                   //check which direction has last node.
         if(north_west != 0){
             return north_west->retrieve_x();
         }
@@ -120,7 +120,7 @@ T Quadtree_node<T>::min_x() const {
         }
         return x_value;
     }
-    if (x_value < min(north_west->min_x(),south_west->min_x())) {
+    if (x_value < min(north_west->min_x(),south_west->min_x())) {       //compare the value of current node and min
         return x_value;
     }
     if (north_west->retrieve_x() < south_west->retrieve_x()) {
@@ -204,12 +204,12 @@ template <typename T>
 T Quadtree_node<T>::sum_x() const {
     T sum = 0;
 	if ( this == 0) {
-		// hint... if empty, it returns 0. if last node, return last value.
+		// hint... if empty, it returns 0 which means we have got to the last node.
         return 0;
     }
     
     else {
-        //recursively sum the value. Linear operation. O(n)
+        //recursively sum the value and the value of current node. Linear operation. O(n)
         sum += x_value + north_east->sum_x() + north_west->sum_x() + south_east->sum_x() + south_west->sum_x();
         return sum;
 	}
@@ -228,7 +228,7 @@ T Quadtree_node<T>::sum_y() const {
     }
 }
 
-template <typename T>
+template <typename T>               //compare each value to the value we check, if no do recursion until we find it.
 bool Quadtree_node<T>::member( T const &x, T const &y ) const {
 	if ( this == 0) {
         return false;
@@ -253,10 +253,10 @@ bool Quadtree_node<T>::member( T const &x, T const &y ) const {
 
 template <typename T>
 bool Quadtree_node<T>::insert( T const &x, T const &y ) {          //recursively call to insert until it's done
-    if (x == x_value && y == y_value) {
+    if (x == x_value && y == y_value) {                         //avoid duplicated node
         return false;
     }
-    if (x >= x_value && y >= y_value) {
+    if (x >= x_value && y >= y_value) {                         //create new node based on the quadtree rule
         if (north_east == 0) {
             north_east = new Quadtree_node<T>(x,y);
             return true;
@@ -296,7 +296,7 @@ bool Quadtree_node<T>::insert( T const &x, T const &y ) {          //recursively
 }
 
 template <typename T>
-void Quadtree_node<T>::clear() {
+void Quadtree_node<T>::clear() {            //recursively delete the node calling it.
     if(this == 0){
         delete this;
     }

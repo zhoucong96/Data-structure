@@ -140,13 +140,13 @@ bool Quadtree<T>::member( T const &x, T const &y ) const {
 }
 
 template <typename T>
-void Quadtree<T>::insert( T const &x, T const &y ) {
+void Quadtree<T>::insert( T const &x, T const &y ) {    //if no tree is initiated, we create root.
     if (tree_root == 0) {
         tree_root = new Quadtree_node<T>(x,y);
         count++;
     }
     else{
-        if(tree_root->insert(x, y)){
+        if(tree_root->insert(x, y)){                    //we use recursion to go to the leave to cretae new tree node
             count++;
         }
     }
