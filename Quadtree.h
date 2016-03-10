@@ -136,7 +136,7 @@ bool Quadtree<T>::member( T const &x, T const &y ) const {
     if (empty()) {
         return false;
     }
-    return tree_root->member(x, y);                      //call member function inside node. use & to get value in x and y
+    return tree_root->member(x, y);                      //call member function inside node.
 }
 
 template <typename T>
