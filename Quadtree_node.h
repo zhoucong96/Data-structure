@@ -253,7 +253,7 @@ bool Quadtree_node<T>::member( T const &x, T const &y ) const {
 
 template <typename T>
 bool Quadtree_node<T>::insert( T const &x, T const &y ) {          //recursively call to insert until it's done
-    if (x == x_value && y == y_value) {                         //avoid duplicated node
+    if (member(x, y)) {                         		//avoid duplicated node
         return false;
     }
     if (x >= x_value && y >= y_value) {                         //create new node based on the quadtree rule
