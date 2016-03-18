@@ -309,16 +309,17 @@ bool Quadtree_node<T>::insert( T const &x, T const &y ) {          //recursively
 
 template <typename T>
 void Quadtree_node<T>::clear() {            //recursively delete the node calling it.O(n)
-    if(this == 0){
+    if(this != 0){
+        north_west->clear();
+        north_west = 0;
+        north_east->clear();
+        north_east = 0;
+        south_west->clear();
+        south_west = 0;
+        south_east->clear();
+        south_east = 0;
         delete this;
     }
-    else{
-        north_west->clear();
-        north_east->clear();
-        south_west->clear();
-        south_east->clear();
-    }
-    delete this;
 }
 
 // Is an error showing up in ece250.h or elsewhere?
